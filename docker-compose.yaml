@@ -1,0 +1,9 @@
+  db:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: hasshasshass
+      POSTGRES_USER: postgres
+      POSTGRES_DB: hate_store
+    ports:
+      - 5432:5432
