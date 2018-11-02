@@ -155,7 +155,7 @@ app.layout = html.Div([
 				style={"height": "90%", "width": "98%"},
 				config=dict(displayModeBar=False),
 			),
-		],className="four columns chart_div"
+		],className="three columns chart_div"
 		),
 		
 		html.Div([
@@ -188,6 +188,26 @@ app.layout = html.Div([
 	], className='four columns chart_div'
 	),
     
+	html.Div(
+		dcc.RadioItems(
+			id="status_selector",
+			options=[
+			{'label': 'Deleted', 'value': 'deleted'},
+			{'label': 'Online', 'value': 'online'}
+			],
+			value='deleted'
+		),
+		className='four columns chart_div'
+	),
+	
+	html.Div(
+		id = "example_comment",
+		children = html.P(),
+		className="six columns chart_div"
+		
+		
+		#html.P(df['Body'][10]),className="four columns chart_div"
+	),
 	
 	html.Div([
 		dcc.Graph(
@@ -206,6 +226,7 @@ app.layout = html.Div([
 	],className="twelve columns chart_div"
 	),
 	
+		
 	html.Div([
 			dcc.Dropdown(
 				id='violin_dropdown',
@@ -328,6 +349,15 @@ def violin(cols):
 		
 	return dict(data=data, layout=layout)
 
+@app.callback(
+    Output("example_comment", "children"),
+    [Input("status_selector", "value")]#, Input("leads_df", "children")],
+)
+def example_comment(status):
+	return text_generator(list(df['Body'][df['Status'] == status].dropna().sample(1))[0])
+	
+def text_generator(text):
+	return html.P(text)
 
 if __name__ == '__main__':
     app.run_server()
