@@ -23,7 +23,7 @@ app_colors = {
 
 app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
 
-df = pd.read_csv('../smallPosts.csv')
+df = pd.read_csv('smallPosts.csv')
 df['CreatedAt'] = df['CreatedAt'].apply(parser.parse)
 
 #returns top indicator div
@@ -54,7 +54,7 @@ def convert_size(size_bytes):
    s = round(size_bytes / p, 2)
    return "%s %s" % (s, size_name[i])
 
-file_Size = convert_size(os.stat('../smallPosts.csv').st_size)
+file_Size = convert_size(os.stat('smallPosts.csv').st_size)
 
 
 #available_indicators = df['Indicator Name'].unique()
