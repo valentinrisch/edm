@@ -9,40 +9,30 @@ import math
 from dateutil import parser
 from dash.dependencies import Input, Output, State
 
-external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
+external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']#['https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css']#['my_style.css']#
+
+my_style ={
+	'text-align': 'center',
+	'border-radius': '8px',
+	'border': '2px solid #0B0B61',
+	'margin': '5px',
+	'background-color': '#b4daff'
+}
+
+
 
 app_colors = {
     'background': '#b4daff',
 	"background_div": "white",
-    'text': '#FFFFFF',
-    'sentiment-plot':'#41EAD4',
-    'volume-bar':'#FBFC74',
-    'someothercolor':'#FF206E',
+
 }
 
 
 app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
 
-df = pd.read_csv('smallPosts.csv')
+filePath = 'smallPosts.csv'#'PostsExtended.csv'
+df = pd.read_csv(filePath)#('smallPosts.csv')
 df['CreatedAt'] = df['CreatedAt'].apply(parser.parse)
-
-#returns top indicator div
-def indicator(color, text, id_value):
-    return html.Div(
-        [
-            
-            html.P(
-                text,
-                className="twelve columns indicator_text"
-            ),
-            html.P(
-                id = id_value,
-                className="indicator_value"
-            ),
-        ],
-        className="four columns indicator",
-        
-    )
 
 
 def convert_size(size_bytes):
@@ -54,7 +44,7 @@ def convert_size(size_bytes):
    s = round(size_bytes / p, 2)
    return "%s %s" % (s, size_name[i])
 
-file_Size = convert_size(os.stat('smallPosts.csv').st_size)
+file_Size = convert_size(os.stat(filePath).st_size)
 
 
 #available_indicators = df['Indicator Name'].unique()
@@ -63,36 +53,39 @@ columns = list(df)
 
 app.layout = html.Div([
     
+	
 	html.Div([
 		html.H1("Toxic Comments Analysis"),
 		html.Div([
 			html.P("This dashboard is intended to be used by Data Scientists"),
 		]),
-    ], className = "row"
+	], className = "row",
+	style = my_style
 	),
+	
 	
 	html.Div([	
 		html.Div([
 			html.H2("General informations")
-		], className = "three columns"
+		], className = "three columns",style = my_style
 		),
 	
 		html.Div([
 			html.H3("File Size"),
 			html.H3(str(file_Size))
-		], className = "three columns"
+		], className = "three columns",style = my_style
 		),
 		
 		html.Div([
 			html.H3("Number of Columns"),
 			html.H3(str(df.shape[0]))
-		], className = "three columns"
+		], className = "three columns",style = my_style
 		),
 		
 		html.Div([
 			html.H3("Number of Rows"),
 			html.H3(str(df.shape[1]))
-		], className = "three columns"
+		], className = "three columns",style = my_style
 		),
 		
 	], className = "row"
