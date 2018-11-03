@@ -67,58 +67,46 @@ app.layout = html.Div([
 		html.H1("Toxic Comments Analysis"),
 		html.Div([
 			html.P("This dashboard is intended to be used by Data Scientists"),
-			html.P("It gives and overall picture about our database"),
-			html.P("")
 		]),
-		
-    ]),
+    ], className = "row"
+	),
 	
-	html.Div(
-		html.H2("General informations")
+	html.Div([	
+		html.Div([
+			html.H2("General informations")
+		], className = "three columns"
+		),
+	
+		html.Div([
+			html.H3("File Size"),
+			html.H3(str(file_Size))
+		], className = "three columns"
+		),
+		
+		html.Div([
+			html.H3("Number of Columns"),
+			html.H3(str(df.shape[0]))
+		], className = "three columns"
+		),
+		
+		html.Div([
+			html.H3("Number of Rows"),
+			html.H3(str(df.shape[1]))
+		], className = "three columns"
+		),
+		
+	], className = "row"
 	),
 	
 	html.Div([
-		
-		indicator(
-			"#00cc96", "File Size", "left_leads_indicator"
-		),
-		indicator(
-			"#119DFF", "Number of Columns", "middle_leads_indicator"
-		),
-		indicator(
-			"#EF553B",
-			"Number of Rows",
-			"right_leads_indicator",
-		),
-	],className="row"
-    ),
-	
-	html.Div([
-		indicator(
-			"#00cc96", str(file_Size), "left_leads_Value"
-		),
-		indicator(
-			"#119DFF", str(df.shape[0]), "middle_leads_Value"
-		),
-		indicator(
-			"#EF553B",
-			str(df.shape[1]),
-			"right_leads_Value",
-		),
-	],className="row",
-    ),
-	
-	html.Div([
-		html.H2("Data quality"),
-		html.P("This part includs an overall describtion of our data quality"),
-		html.P("")
-	]),
-		
-	html.Div([
 		html.Div([
-			html.P("Usable data should at least have"),			
-		],
-		style={'width': '20%', 'display': 'inline-block'}
+			html.H2("Data quality"),
+		], className = "three columns"
+		),
+		
+		html.Div([
+			html.P("Usable data should at least have:"),			
+		], className = "three columns" #style={'width': '20%', 'display': 'inline-block'}
 		),
 		
 		html.Div([
@@ -127,11 +115,14 @@ app.layout = html.Div([
 				options=[{'label': i, 'value': i} for i in columns],
 				multi=True,
 				value=[columns[0]]
-			),
-		],
-		style={'width': '80%', 'float': 'right', 'display': 'inline-block'}
-		),
+			)
+		], className = "six columns" #style={'width': '80%', 'float': 'right', 'display': 'inline-block'}
+		)
 		
+	], className = "row"
+	),
+	
+	html.Div([
 		html.Div([
 			dcc.Graph(
 				id='total without missing',
@@ -145,70 +136,80 @@ app.layout = html.Div([
 					#'layout' : dict(margin=dict(l=15, r=10, t=0, b=65), legend=dict(orientation="h"))
 				}
 			),
-		], className='three columns chart_div'
+		], className = "four columns"
 		),
 		
 		html.Div([
 			#html.P("percentage of missing values"),
 			dcc.Graph(
 				id="bar_null",
-				style={"height": "90%", "width": "98%"},
+				#style={"height": "60%"},
 				config=dict(displayModeBar=False),
 			),
-		],className="three columns chart_div"
+		], className = "four columns"
 		),
 		
 		html.Div([
 			#html.P("percentage of missing values"),
 			dcc.Graph(
 				id="usable_data_pie",
-				style={"height": "90%", "width": "98%"},
+				#style={"height": "60%"},
 				config=dict(displayModeBar=False),
 			),
-		],className="three columns chart_div"
+		], className = "four columns"
+		)
+		
+	], className = "row"
+	),
+	
+	html.Div([		
+		html.Div([
+			html.H2("Data Analysis"),
+		], #className = "three columns"
 		),
-		
-	]),
-		
+	], className = "row"
+	),
+	
 	html.Div([
-		dcc.Graph(
-			id='pie chart',
-			figure={
-				'data' : [
-					go.Pie(
-						labels=['Deleted', 'Online'],
-						values=[(df.Status == 'deleted').sum(),(df.Status == 'online').sum()],
-						#marker={"colors": ["#264e86", "#0074e4", "#74dbef", "#eff0f4"]}
-					)
+		html.Div([
+			dcc.Graph(
+				id='pie chart',
+				figure={
+					'data' : [
+						go.Pie(
+							labels=['Deleted', 'Online'],
+							values=[(df.Status == 'deleted').sum(),(df.Status == 'online').sum()],
+							#marker={"colors": ["#264e86", "#0074e4", "#74dbef", "#eff0f4"]}
+						)
+					],
+					#'layout' : dict(margin=dict(l=15, r=10, t=0, b=65), legend=dict(orientation="h"))
+				}
+			),
+		
+		], className = "four columns"
+		),
+		
+		html.Div(
+			dcc.RadioItems(
+				id="status_selector",
+				options=[
+					{'label': 'Deleted', 'value': 'deleted'},
+					{'label': 'Online', 'value': 'online'}
 				],
-				#'layout' : dict(margin=dict(l=15, r=10, t=0, b=65), legend=dict(orientation="h"))
-			}
+				value='deleted'
+			), className='four columns'
+		),
+	
+		html.Div(
+			id = "example_comment",
+			children = html.P(),
+			className="six columns"
+			#html.P(df['Body'][10]),className="four columns chart_div"
 		),
 		
-	], className='four columns chart_div'
+	], className = "row"
 	),
-    
-	html.Div(
-		dcc.RadioItems(
-			id="status_selector",
-			options=[
-			{'label': 'Deleted', 'value': 'deleted'},
-			{'label': 'Online', 'value': 'online'}
-			],
-			value='deleted'
-		),
-		className='four columns chart_div'
-	),
-	
-	html.Div(
-		id = "example_comment",
-		children = html.P(),
-		className="six columns chart_div"
-		
-		
-		#html.P(df['Body'][10]),className="four columns chart_div"
-	),
-	
+
 	html.Div([
 		dcc.Graph(
 			id='Not null',
@@ -285,7 +286,7 @@ def usable_data_pie(cols):
 		values=[df.loc[:,cols].shape[0]-df.loc[:,cols].isnull().any(axis=1).sum(),df.loc[:,cols].isnull().any(axis=1).sum()]
 	)
 	layout = go.Layout(
-		title='Usable Data',
+		#title='Usable Data',
     )
 	return dict(data=[trace], layout=layout)
 	
@@ -344,7 +345,8 @@ def violin(cols):
         },
         violingap = 0,
         #"violingroupgap": 0,
-        violinmode = "overlay"	
+        violinmode = "overlay",
+		#margin=dict(l=10, r=10, t=0, b=0)
 	)
 		
 	return dict(data=data, layout=layout)
