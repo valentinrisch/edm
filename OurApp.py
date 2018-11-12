@@ -46,7 +46,7 @@ app_colors = {
 
 app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
 
-filePath =  "PostsMid.csv" #'PostsExtended.csv'#'smallPosts.csv' #PostsMid.csv #'smallPosts.csv'
+filePath =  "./assets/dataset/smallPosts.csv" #'PostsExtended.csv'#'smallPosts.csv' #PostsMid.csv #'smallPosts.csv'
 df = pd.read_csv(filePath)#('smallPosts.csv')
 df['CreatedAt'] = df['CreatedAt'].apply(parser.parse)
 
