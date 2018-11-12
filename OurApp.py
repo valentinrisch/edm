@@ -46,7 +46,7 @@ app_colors = {
 
 app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
 
-filePath =  "PostsMid.csv" #'PostsExtended.csv'#'smallPosts.csv' #PostsMid.csv #'smallPosts.csv'
+filePath =  "./assets/dataset/smallPosts.csv" #'PostsExtended.csv'#'smallPosts.csv' #PostsMid.csv #'smallPosts.csv'
 df = pd.read_csv(filePath)#('smallPosts.csv')
 df['CreatedAt'] = df['CreatedAt'].apply(parser.parse)
 
@@ -470,7 +470,15 @@ def time_series(val):
 	)
 
 	data = [trace0, trace1, trace2]
-	return dict(data=data)
+	
+	layout = dict(
+		title = "Daily number of comments",
+		# xaxis = dict(
+			# range = ['2015-05-31','2016-06-07']
+		# )
+	)
+	
+	return dict(data=data, layout=layout)#)
 
 	
 	
