@@ -470,7 +470,15 @@ def time_series(val):
 	)
 
 	data = [trace0, trace1, trace2]
-	return dict(data=data)
+	
+	layout = dict(
+		title = "Daily number of comments",
+		# xaxis = dict(
+			# range = ['2015-05-31','2016-06-07']
+		# )
+	)
+	
+	return dict(data=data, layout=layout)#)
 
 	
 	
